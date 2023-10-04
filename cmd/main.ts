@@ -83,15 +83,26 @@ const findWorks = async (parent: string) => {
         texts.push((await fs.readFile(path.join(dir, text))).toString());
       }
     }
-    const work = { ...info, date: dayjs(info.date, "YYYY/MM/DD"), path: dir, texts, genre: dir } as Work;
+    const work = { ...info, date: dayjs(info.date, "YYYY/MM/DD"), path: dir, texts, genre: path.dirname(dir) } as Work;
     works.push(work);
   }
   return works;
 };
 
+const toSnakeCase = (camel: string): string => {
+  return camel
+    ? camel
+        .split("/")
+        .map((v) =>
+          v.replace(/[A-Z]/g, (letter, index) => (index == 0 ? letter.toLowerCase() : "_" + letter.toLowerCase()))
+        )
+        .join("/")
+    : "";
+};
+
 const normalizePath = (obj: { path?: string; genre?: string }, root: string) => {
-  if (obj.path) obj.path = obj.path.split(root + "/")[1];
-  if (obj.genre) obj.genre = obj.genre.split(root + "/")[1];
+  if (obj.path) obj.path = toSnakeCase(obj.path.split(root + "/")[1]);
+  if (obj.genre) obj.genre = toSnakeCase(obj.genre.split(root + "/")[1]);
   return obj;
 };
 
@@ -103,16 +114,16 @@ const main = async (args: string[]) => {
   console.log(args, process.argv0);
   const root = args[args.length - 1];
   const genres = await findGenres(args[args.length - 1]);
-  console.log(genres);
   for (const genre of genres) {
     const works = (await findWorks(genre.path)).sort((a, b) => (a.date.isAfter(b.date) ? -1 : 1));
     const series = await findSeries(genre.path);
-
+    console.log(genre);
     const obj = {
       ...normalizePath(genre, root),
       works: normalizePaths(works, root),
       series: normalizePaths(series, root),
     };
+    console.log(obj);
     await fs.writeFile("dist/" + path.basename(genre.path) + ".json", JSON.stringify(obj));
   }
   await fs.writeFile("dist/genre.json", JSON.stringify(genres));

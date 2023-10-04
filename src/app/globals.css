@@ -8,20 +8,40 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  max-width: 45rem;
+  margin: 0rem auto;
+  padding: 0 1rem;
+  font-family: "Zen Old Mincho", cursive;
+  color: #393c41;
+}
+
+/*** ダークモード対応 ***/
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #202124;
+    color: #bdc1c6;
+  }
+  a {
+    color: #bdc1c6;
+  }
+  .title,
+  .title a {
+    color: #ffffff;
+  }
+  hr {
+    margin: 1rem 0.5rem 1rem 0.5rem;
+    border-width: 0 0 1px;
+    border-image: linear-gradient(
+        90deg,
+        hsla(0, 0%, 100%, 0),
+        hsla(0, 0%, 100%, 0.3) 50%,
+        hsla(0, 0%, 100%, 0) 100%
+      )
+      0 0 100%;
+    border-style: solid;
+  }
 }
