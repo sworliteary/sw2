@@ -1,12 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+@tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
 
@@ -17,6 +10,17 @@ body {
   font-family: "Zen Old Mincho", cursive;
   color: #393c41;
 }
+
+
+
+a {
+  color: #393c41;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
 
 /*** ダークモード対応 ***/
 

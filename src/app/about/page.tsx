@@ -1,15 +1,12 @@
-import Link from "next/link"
-
-
-export default async function Home() {
-  
-
+export default async function About() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h3>最近の投稿</h3>
-      <h3>ジャンル</h3>
-      <div className="max-w-lg my-1 mx-auto">
-     
+    <main>
+      <h3 className="text-xl font-bold my-4">このサイトについて</h3>
+      <div className="max-w-xl mx-auto my-2">
+        <p>このWebサイトは藤谷光が自作の小説を管理したり公開するためのサイトです。</p>
+        <p>二次創作とオリジナルの両方を扱います。</p>
+        <p>また、過去に頒布した本の再録なども行っています。</p>
+        <p>お問い合わせ等ありましたら、メールアドレスか、Twitterまでお願いします。</p>
       </div>
     </main>
   );
