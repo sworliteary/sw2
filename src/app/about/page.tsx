@@ -1,3 +1,9 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "このサイトについて | Sayonara Voyage",
+};
+
 export default async function About() {
   return (
     <main>

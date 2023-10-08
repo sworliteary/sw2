@@ -1,6 +1,19 @@
 import { WorkShow } from "@/app/components/work";
 import { GetGenre, GetGenres } from "@/app/data/data";
 
+export async function generateMetadata({ params }: { params: { genre: string; id: string[] } }) {
+  const withPage = params.id[params.id.length - 1].startsWith("page_");
+  const workpath = withPage ? params.id.slice(0, params.id.length - 1) : params.id;
+  const work = (await GetGenre("fan_fiction/" + params.genre)).works.filter(
+    (v) => v.path.split("/").slice(2).join("/") === workpath.join("/")
+  )[0];
+  const genre = (await GetGenre(work.genre)).name;
+  return {
+    title: `${work.title} | Sayonara Voyage`,
+    description: `${work.title} | ${genre}の二次創作`,
+  };
+}
+
 export async function generateStaticParams() {
   const result = (
     await Promise.all(
@@ -27,7 +40,6 @@ export async function generateStaticParams() {
 
 export default async function Work({ params }: { params: { genre: string; id: string[] } }) {
   const withPage = params.id[params.id.length - 1].startsWith("page_");
-
   const workpath = withPage ? params.id.slice(0, params.id.length - 1) : params.id;
   const work = (await GetGenre("fan_fiction/" + params.genre)).works.filter(
     (v) => v.path.split("/").slice(2).join("/") === workpath.join("/")

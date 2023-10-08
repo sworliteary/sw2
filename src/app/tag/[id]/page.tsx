@@ -1,7 +1,14 @@
 import { WorkInfoList } from "@/app/components/work";
 import { GetAllWorks } from "@/app/data/data";
-import { table } from "console";
 
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const tag = decodeURIComponent(params.id);
+  const works = (await GetAllWorks()).filter((v) => (v.tag ?? []).includes(tag));
+  return {
+    title: `#${tag} | Sayonara Voyage`,
+    description: `#${tag} のタグがついた作品の一覧 | Sayonara Voyage`,
+  };
+}
 export async function generateStaticParams() {
   const tags = (await GetAllWorks())
     .map((v) => v.tag ?? [])

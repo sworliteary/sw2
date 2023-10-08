@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { GetGenres, GetRecentWorks } from "./data/data";
-import { WorkInfo, WorkInfoList } from "./components/work";
+import { WorkInfoList } from "./components/work";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sayonara Voyage",
+  description: "藤谷光の小説置き場です。",
+};
 
 export default async function Home() {
   const genres = await GetGenres();
