@@ -1,18 +1,9 @@
 import Link from "next/link";
-import { readFile } from "fs/promises";
-import path from "path";
-import { GetRecentWorks } from "./data/data";
+import { GetGenres, GetRecentWorks } from "./data/data";
 import { WorkInfo, WorkInfoList } from "./components/work";
 
-type Genre = {
-  name: string;
-  is_fan_fiction: boolean;
-  path: string;
-};
-
 export default async function Home() {
-  const file = await readFile(path.join(process.cwd(), "dist", "genre.json"));
-  const genres = { genres: JSON.parse(file.toString()) as Genre[] };
+  const genres = await GetGenres();
   const recent = (await GetRecentWorks()).slice(0, 3);
   return (
     <main>

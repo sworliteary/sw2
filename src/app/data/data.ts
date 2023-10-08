@@ -16,6 +16,7 @@ export type Work = {
   path: string;
   texts: string[];
   genre: string;
+  draft?: boolean;
 };
 
 export type Series = {
@@ -31,8 +32,11 @@ type GenreWithWorks = Genre & {
 };
 
 export const GetGenres = async () => {
-  const file = await readFile(path.join(process.cwd(), "dist", "genre.json"));
-  return { genres: JSON.parse(file.toString()) as Genre[] };
+  const genres = JSON.parse((await readFile(path.join(process.cwd(), "dist", "genre.json"))).toString()) as Genre[];
+  const details = (await Promise.all(genres.map((v) => GetGenre(v.path)))).filter(
+    (v) => v.works.filter((v) => !v.draft).length > 0
+  );
+  return { genres: details };
 };
 
 export const GetGenre = async (genre: string): Promise<GenreWithWorks> => {
