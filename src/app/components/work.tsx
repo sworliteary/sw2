@@ -19,6 +19,16 @@ export const WorkInfoList = async ({
   );
 };
 
+export const WorkShow = async ({work} : {work: Work}) => {
+  const text = work.texts.map(v => v.split("\n\n").map(t => t.split("\n")))
+  return (
+    <>
+    <WorkInfo work={work} option={{hideHr: true}}/>
+    <div className="max-w-xl">{}</div>
+    </>
+  )
+}
+
 export const WorkInfo = async ({
   work,
   option,
@@ -31,18 +41,18 @@ export const WorkInfo = async ({
 
   const captions = caption?.split("\n");
   return (
-    <div className="mx-auto my-4 max-w-xl last:border-non">
+    <div className="mx-auto mt-4 mb-8 max-w-xl last:border-non">
       {option?.hideGenre ? (
         <></>
       ) : (
         <p className="mb-0 mt-0 text-xs">
-          <Link href={genre}>
+          <Link href={"/" + genre}>
             {`❏ `} {name}
           </Link>
         </p>
       )}
       <h3 className="mb-2 mt-1">
-        <Link href={path}>{title}</Link>
+        <Link href={"/" + path}>{title}</Link>
       </h3>
       {!option?.hideCaption && captions && (
         <p className="pl-4 text-left text-xs">
