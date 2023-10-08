@@ -82,7 +82,7 @@ const findWorks = async (parent: string) => {
         texts.push((await fs.readFile(path.join(dir, text))).toString());
       }
     }
-    const work = { ...info, date: dayjs(info.date, "YYYY/MM/DD"), path: dir, texts, genre: path.dirname(dir) } as Work;
+    const work = { ...info, date: dayjs(info.date, "YYYY/MM/DD"), path: dir, texts, genre: parent } as Work;
     works.push(work);
   }
   return works;
