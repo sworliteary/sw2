@@ -1,9 +1,8 @@
-import fs from "fs/promises";
-import { glob } from "glob";
 import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
-import { text } from "stream/consumers";
-import path from "path";
+const timezone = require("dayjs/plugin/timezone");
+const fs = require("fs/promises");
+import { glob } from "glob";
+const path = require("path");
 
 dayjs.extend(timezone);
 
@@ -60,8 +59,8 @@ const findSeries = async (dir: string) => {
   for (const p of jsons) {
     const json = await fs.readFile(p);
     const info = JSON.parse(json.toString());
-    const works = (await glob(path.dirname(p) + "/**/work.json")).map((v) => path.dirname(v));
-    serieses.push({ ...info, works: works, genre: dir });
+    const works = await findWorks(path.dirname(p));
+    serieses.push({ ...info, works: works.map((v) => v.path), genre: dir });
   }
   return serieses;
 };
@@ -76,7 +75,7 @@ const findWorks = async (parent: string) => {
     const dir = path.dirname(p);
     for (const t of info.files ?? ["text.txt"]) {
       const text = (await fs.readFile(path.join(dir, t))).toString();
-      if (text.split("\n").length > 2) {
+      if (text.split("\n").length > 3) {
         texts.push(text);
       } else {
         // シンボリックリンクが壊れてファイルのパスを一行記述したファイルになることがあるので、その時の対策
@@ -100,33 +99,36 @@ const toSnakeCase = (camel: string): string => {
     : "";
 };
 
-const normalizePath = (obj: { path?: string; genre?: string }, root: string) => {
-  if (obj.path) obj.path = toSnakeCase(obj.path.split(root + "/")[1]);
-  if (obj.genre) obj.genre = toSnakeCase(obj.genre.split(root + "/")[1]);
+const normalizePath = (path: string, root: string): string => {
+  return toSnakeCase(path.split(root)[1]);
+};
+
+const normalize = (obj: { path?: string; genre?: string }, root: string) => {
+  if (obj.path) obj.path = normalizePath(obj.path, root);
+  if (obj.genre) obj.genre = normalizePath(obj.genre, root);
   return obj;
 };
 
 const normalizePaths = (paths: { path?: string; genre?: string }[], root: string) => {
-  return paths.map((p) => normalizePath(p, root));
+  return paths.map((p) => normalize(p, root));
 };
 
 const main = async (args: string[]) => {
-  console.log(args, process.argv0);
-  const root = args[args.length - 1];
+  const root = args[args.length - 1].endsWith("/") ? args[args.length - 1] : args[args.length - 1] + "/";
   const genres = await findGenres(args[args.length - 1]);
   for (const genre of genres) {
     const works = (await findWorks(genre.path)).sort((a, b) => (a.date.isAfter(b.date) ? -1 : 1));
     const series = await findSeries(genre.path);
-    console.log(genre);
     const obj = {
-      ...normalizePath(genre, root),
+      ...normalize(genre, root),
       works: normalizePaths(works, root),
-      series: normalizePaths(series, root),
+      series: series.map((v) => {
+        return { ...normalize(v, root), works: v.works.map((v) => normalizePath(v, root)) };
+      }),
     };
-    console.log(obj);
-    await fs.writeFile("dist/" + path.basename(genre.path) + ".json", JSON.stringify(obj));
+    await fs.writeFile("dist/" + path.basename(genre.path) + ".json", JSON.stringify(obj, null, 2));
   }
-  await fs.writeFile("dist/genre.json", JSON.stringify(genres));
+  await fs.writeFile("dist/genre.json", JSON.stringify(genres, null, 2));
 };
 
 main(process.argv);

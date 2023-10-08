@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cmd": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' npx ts-node ./cmd/main.ts"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
