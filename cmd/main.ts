@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 const timezone = require("dayjs/plugin/timezone");
-const fs = require("fs/promises");
+import * as fs from "fs/promises";
 import { glob } from "glob";
 const path = require("path");
 
@@ -126,7 +126,11 @@ const main = async (args: string[]) => {
         return { ...normalize(v, root), works: v.works.map((v) => normalizePath(v, root)) };
       }),
     };
-    await fs.writeFile("dist/" + path.basename(genre.path) + ".json", JSON.stringify(obj, null, 2));
+    await fs.mkdir(path.join("dist/", path.dirname(genre.path)), { recursive: true }).catch((v) => {
+      if (v.code === "EXISTS") return;
+      else throw v;
+    });
+    await fs.writeFile("dist/" + genre.path + ".json", JSON.stringify(obj, null, 2));
   }
   await fs.writeFile("dist/genre.json", JSON.stringify(genres, null, 2));
 };
