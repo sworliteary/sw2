@@ -1,4 +1,3 @@
-import CommonMeta from "@/app/components/head";
 import { WorkInfoList } from "@/app/components/work";
 import { GetGenre, GetGenres } from "@/app/data/data";
 
