@@ -19,15 +19,58 @@ export const WorkInfoList = async ({
   );
 };
 
-export const WorkShow = async ({work} : {work: Work}) => {
-  const text = work.texts.map(v => v.split("\n\n").map(t => t.split("\n")))
-  return (
+const pageP = (i: number) => {
+  return i == 0 ? "" : `page_${i}`;
+};
+
+export const WorkShow = async ({ work, page }: { work: Work; page?: number }) => {
+  console.log(page);
+  const current = page ?? 0;
+  const text = work.texts[current];
+  const splited = text.split("\n\n").map((t) => t.split("\n"));
+  const Pager = () => (
     <>
-    <WorkInfo work={work} option={{hideHr: true}}/>
-    <div className="max-w-xl">{}</div>
+      {work.texts.length > 1 && (
+        <div className="toc text-right mb-10 font-mono">
+          {current != 0 && <Link href={`/${work.path}/${pageP(current - 1)}`}>{"<"}</Link>}
+          {work.texts
+            .map((_, i) => i + 1)
+            .map((i) => (
+              <>
+                {i > 0 && " "}
+                <span className={current + 1 == i ? "underline font-bold" : ""}>
+                  <Link href={`/${work.path}${i > 1 ? `/page_${i - 1}` : ""}`} className="hover:no-underline">
+                    {i}
+                  </Link>
+                </span>
+              </>
+            ))}{" "}
+          {current !== work.texts.length - 1 && <Link href={`/${work.path}/${pageP(current + 1)}`}>{">"}</Link>}
+        </div>
+      )}
     </>
-  )
-}
+  );
+
+  return (
+    <div className="mt-10 mb-10">
+      <WorkInfo work={work} option={{ hideHr: true }} />
+      <div className="max-w-2xl mx-auto mt-20">
+        <Pager />
+        {splited.map((v) => (
+          <p>
+            {v.map((t) => (
+              <>
+                {t}
+                <br />
+              </>
+            ))}
+          </p>
+        ))}
+        <Pager />
+      </div>
+    </div>
+  );
+};
 
 export const WorkInfo = async ({
   work,
@@ -72,7 +115,7 @@ export const WorkInfo = async ({
             {tag.map((t) => (
               <span>
                 {" "}
-                <Link href={t}>#{t}</Link>
+                <Link href={`/tag/${t}`}>#{t}</Link>
               </span>
             ))}
           </div>
