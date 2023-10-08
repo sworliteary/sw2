@@ -14,7 +14,6 @@ export async function generateStaticParams() {
     .map((v) => v.path)
     .map((p) => p.replace("original/", ""))
     .map((v) => ({ id: v }));
-  console.log(result);
   return result;
 }
 

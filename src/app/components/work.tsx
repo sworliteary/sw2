@@ -24,7 +24,6 @@ const pageP = (i: number) => {
 };
 
 export const WorkShow = async ({ work, page }: { work: Work; page?: number }) => {
-  console.log(page);
   const current = page ?? 0;
   const text = work.texts[current];
   const splited = text.split("\n\n").map((t) => t.split("\n"));
