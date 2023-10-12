@@ -18,7 +18,7 @@ export default async function Home() {
         <h3>ジャンル</h3>
         <div className="px-20 text-sm">
           {genres.genres.map((v) => (
-            <div>
+            <div key={v.path}>
               {`❏ `}
               <Link href={v.path}>{v.name}</Link>
             </div>

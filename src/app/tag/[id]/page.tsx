@@ -3,7 +3,6 @@ import { GetAllWorks } from "@/app/data/data";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const tag = decodeURIComponent(params.id);
-  const works = (await GetAllWorks()).filter((v) => (v.tag ?? []).includes(tag));
   return {
     title: `#${tag} | Sayonara Voyage`,
     description: `#${tag} のタグがついた作品の一覧 | Sayonara Voyage`,

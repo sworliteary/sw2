@@ -13,7 +13,7 @@ export const WorkInfoList = async ({
   return (
     <div className="mt-10">
       {works.map((v, i) => (
-        <WorkInfo work={v} option={{ ...option, hideHr: i === works.length - 1 }} />
+        <WorkInfo work={v} option={{ ...option, hideHr: i === works.length - 1 }} key={i} />
       ))}
     </div>
   );
@@ -53,7 +53,7 @@ export const WorkShow = async ({ work, page }: { work: Work; page?: number }) =>
   return (
     <div className="mt-10 mb-10">
       <WorkInfo work={work} option={{ hideHr: true }} />
-      <div className="max-w-2xl mx-auto mt-20">
+      <div className="max-w-lg mx-auto mt-20">
         <Pager />
         {splited.map((v) => (
           <p>
