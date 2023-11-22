@@ -1,7 +1,5 @@
 import "./globals.css";
-import type { Metadata } from "next";
 import { Dancing_Script } from "next/font/google";
-import Link from "next/link";
 
 const DancingScript = Dancing_Script({ subsets: ["latin"] });
 
@@ -14,17 +12,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="header my-4">
           <h1 className={`${DancingScript.className} text-center text-4xl my-4`}>
-            <Link href="/" className="text-white font-black">
+            <a href="/" className="text-white font-black">
               Sayonara VoyagE
-            </Link>
+            </a>
           </h1>
           <p className={`${DancingScript.className} text-center my-1`}>Use me like an oar and get yourself to shore</p>
           <div className="flex flex-row items-center justify-around">
             <span>
-              <Link href="/recent">最近の投稿</Link>
+              <a href="/recent">最近の投稿</a>
             </span>
             <span>
-              <Link href="/about">このサイトについて</Link>
+              <a href="/about">このサイトについて</a>
             </span>
           </div>
         </div>

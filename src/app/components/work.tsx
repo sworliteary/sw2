@@ -1,6 +1,5 @@
 import * as React from "react";
 import { GetGenre, Work } from "../data/data";
-import Link from "next/link";
 import dayjs from "dayjs";
 
 export const WorkInfoList = async ({
@@ -31,20 +30,20 @@ export const WorkShow = async ({ work, page }: { work: Work; page?: number }) =>
     <>
       {work.texts.length > 1 && (
         <div className="toc text-right mb-10 font-mono">
-          {current != 0 && <Link href={`/${work.path}/${pageP(current - 1)}`}>{"<"}</Link>}
+          {current != 0 && <a href={`/${work.path}/${pageP(current - 1)}`}>{"<"}</a>}
           {work.texts
             .map((_, i) => i + 1)
             .map((i) => (
               <>
                 {i > 0 && " "}
                 <span className={current + 1 == i ? "underline font-bold" : ""}>
-                  <Link href={`/${work.path}${i > 1 ? `/page_${i - 1}` : ""}`} className="hover:no-underline">
+                  <a href={`/${work.path}${i > 1 ? `/page_${i - 1}` : ""}`} className="hover:no-underline">
                     {i}
-                  </Link>
+                  </a>
                 </span>
               </>
             ))}{" "}
-          {current !== work.texts.length - 1 && <Link href={`/${work.path}/${pageP(current + 1)}`}>{">"}</Link>}
+          {current !== work.texts.length - 1 && <a href={`/${work.path}/${pageP(current + 1)}`}>{">"}</a>}
         </div>
       )}
     </>
@@ -88,13 +87,13 @@ export const WorkInfo = async ({
         <></>
       ) : (
         <p className="mb-0 mt-0 text-xs">
-          <Link href={"/" + genre}>
+          <a href={"/" + genre}>
             {`❏ `} {name}
-          </Link>
+          </a>
         </p>
       )}
       <h3 className="mb-2 mt-1">
-        <Link href={"/" + path}>{title}</Link>
+        <a href={"/" + path}>{title}</a>
       </h3>
       {!option?.hideCaption && captions && (
         <p className="pl-4 text-left text-xs">
@@ -113,8 +112,7 @@ export const WorkInfo = async ({
           <div className="mb-0 mt-0">
             {tag.map((t) => (
               <span>
-                {" "}
-                <Link href={`/tag/${t}`}>#{t}</Link>
+                <a href={`/tag/${t}/`}>#{t}</a>
               </span>
             ))}
           </div>

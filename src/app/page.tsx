@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { GetGenres, GetRecentWorks } from "./data/data";
 import { WorkInfoList } from "./components/work";
 import { Metadata } from "next";
@@ -20,7 +19,7 @@ export default async function Home() {
           {genres.genres.map((v) => (
             <div key={v.path}>
               {`❏ `}
-              <Link href={v.path}>{v.name}</Link>
+              <a href={v.path}>{v.name}</a>
             </div>
           ))}
         </div>

@@ -13,14 +13,20 @@ export async function generateStaticParams() {
     .map((v) => v.tag ?? [])
     .flat()
     .filter((v, i, z) => z.indexOf(v) === i)
-    .map((t) => ({
-      id: encodeURIComponent(t),
-    }));
+    .map((t) => [
+      {
+        id: t,
+      },
+      {
+        id: encodeURIComponent(t), // ローカルの開発時に必要になるので入れざるを得ない！
+      },
+    ])
+    .flat();
   return tags;
 }
 
-export default async function Tag({ params }: { params: { id: string } }) {
-  const tag = decodeURIComponent(params.id);
+export default async function Tag({ params: { id } }: { params: { id: string } }) {
+  const tag = decodeURIComponent(id);
   const works = (await GetAllWorks()).filter((v) => (v.tag ?? []).includes(tag));
   return (
     <main>
