@@ -29,7 +29,7 @@ export const WorkShow = async ({ work, page }: { work: Work; page?: number }) =>
   const Pager = () => (
     <>
       {work.texts.length > 1 && (
-        <div className="toc text-right mb-10 font-mono">
+        <div className="toc text-right mb-10">
           {current != 0 && <a href={`/${work.path}/${pageP(current - 1)}`}>{"<"}</a>}
           {work.texts
             .map((_, i) => i + 1)
@@ -96,7 +96,7 @@ export const WorkInfo = async ({
         <a href={"/" + path}>{title}</a>
       </h3>
       {!option?.hideCaption && captions && (
-        <p className="pl-4 text-left text-xs">
+        <p className="pl-4 text-left text-xs my-4">
           {captions.map((v, i) => {
             return (
               <>
@@ -111,7 +111,7 @@ export const WorkInfo = async ({
         {tag && (
           <div className="mb-0 mt-0">
             {tag.map((t) => (
-              <span>
+              <span className="mr-1">
                 <a href={`/tag/${t}/`}>#{t}</a>
               </span>
             ))}

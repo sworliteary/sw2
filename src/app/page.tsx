@@ -14,7 +14,7 @@ export default async function Home() {
     <main>
       <WorkInfoList works={recent} />
       <div className="max-w-xl my-1 mx-auto ">
-        <h3>ジャンル</h3>
+        <h4>ジャンル一覧</h4>
         <div className="px-20 text-sm">
           {genres.genres.map((v) => (
             <div key={v.path}>
