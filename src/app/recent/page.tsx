@@ -12,6 +12,7 @@ export default async function Recent() {
   const recent = (await GetRecentWorks()).slice(0, 10);
   return (
     <main>
+      <h3 className="text-center">最近の更新</h3>
       <WorkInfoList works={recent} />
     </main>
   );
