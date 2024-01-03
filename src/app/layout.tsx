@@ -12,11 +12,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="header my-4">
           <h1 className={`${DancingScript.className} text-center text-4xl my-4`}>
-            <a href="/" className="text-white font-black">
+            <a href="/" className="dark:text-white font-black hover:no-underline">
               Sayonara VoyagE
             </a>
           </h1>
-          <p className={`${DancingScript.className} text-center my-1`}>Use me like an oar and get yourself to shore</p>
+          <p className={`${DancingScript.className} text-sm text-center my-3`}>Use me like an oar and get yourself to shore</p>
           <div className="flex flex-row items-center justify-around">
             <span className="text-sm">
               <a href="/recent">最近の投稿</a>

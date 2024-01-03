@@ -20,6 +20,14 @@ a:hover {
   text-decoration: underline;
 }
 
+hr {
+  margin: 1rem 0.5rem 1rem 0.5rem;
+  border-width: 0 0 1px;
+  border-image: linear-gradient(90deg, hsl(0deg 0% 0% / 10%), hsl(0deg 0% 0% / 30%) 50%, hsl(0deg 0% 0% / 10%) 100%) 0 0
+    100%;
+  border-style: solid;
+}
+
 /*** ダークモード対応 ***/
 
 @media (prefers-color-scheme: dark) {
@@ -37,13 +45,8 @@ a:hover {
   hr {
     margin: 1rem 0.5rem 1rem 0.5rem;
     border-width: 0 0 1px;
-    border-image: linear-gradient(
-        90deg,
-        hsla(0, 0%, 100%, 0),
-        hsla(0, 0%, 100%, 0.3) 50%,
-        hsla(0, 0%, 100%, 0) 100%
-      )
-      0 0 100%;
+    border-image: linear-gradient(90deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.3) 50%, hsla(0, 0%, 100%, 0) 100%) 0
+      0 100%;
     border-style: solid;
   }
 }
