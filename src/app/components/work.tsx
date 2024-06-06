@@ -22,10 +22,16 @@ const pageP = (i: number) => {
   return i == 0 ? "" : `page_${i}`;
 };
 
+const rbRegexp = RegExp(`｜([^《]*)《([^》]*)》`, "g");
+
+const parseRb = (txt: string): string => {
+  return txt.replaceAll(rbRegexp, `<ruby>$1<rt>$2</rt></ruby>`);
+};
+
 export const WorkShow = async ({ work, page }: { work: Work; page?: number }) => {
   const current = page ?? 0;
   const text = work.texts[current];
-  const splited = text.split("\n\n").map((t) => t.split("\n"));
+  const splited = text.split("\n\n").map((t) => t.split("\n").map(parseRb));
   const Pager = () => (
     <>
       {work.texts.length > 1 && (
@@ -42,7 +48,7 @@ export const WorkShow = async ({ work, page }: { work: Work; page?: number }) =>
                   </a>
                 </span>
               </>
-            ))}{" "}
+            ))}
           {current !== work.texts.length - 1 && <a href={`/${work.path}/${pageP(current + 1)}`}>{">"}</a>}
         </div>
       )}
@@ -58,7 +64,7 @@ export const WorkShow = async ({ work, page }: { work: Work; page?: number }) =>
           <p>
             {v.map((t) => (
               <>
-                {t}
+                <span dangerouslySetInnerHTML={{ __html: t }}></span>
                 <br />
               </>
             ))}
