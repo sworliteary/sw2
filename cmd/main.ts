@@ -115,7 +115,9 @@ const normalizePaths = (paths: { path?: string; genre?: string }[], root: string
 
 const main = async (args: string[]) => {
   const root = args[args.length - 1].endsWith("/") ? args[args.length - 1] : args[args.length - 1] + "/";
+  console.log(`reading repository: ${root}`);
   const genres = await findGenres(args[args.length - 1]);
+  let count = 0;
   for (const genre of genres) {
     const works = (await findWorks(genre.path)).sort((a, b) => (a.date.isAfter(b.date) ? -1 : 1));
     const series = await findSeries(genre.path);
@@ -131,8 +133,10 @@ const main = async (args: string[]) => {
       else throw v;
     });
     await fs.writeFile("dist/" + genre.path + ".json", JSON.stringify(obj, null, 2));
+    count += works.length;
   }
   await fs.writeFile("dist/genre.json", JSON.stringify(genres, null, 2));
+  console.log(`complete (genres: ${genres.length}, works: ${count})`);
 };
 
 main(process.argv);
