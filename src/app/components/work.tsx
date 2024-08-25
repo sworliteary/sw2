@@ -40,14 +40,14 @@ export const WorkShow = async ({ work, page }: { work: Work; page?: number }) =>
           {work.texts
             .map((_, i) => i + 1)
             .map((i) => (
-              <>
+              <React.Fragment key={i}>
                 {i > 0 && " "}
                 <span className={current + 1 == i ? "underline font-bold" : ""}>
                   <a href={`/${work.path}${i > 1 ? `/page_${i - 1}` : ""}`} className="hover:no-underline">
                     {i}
                   </a>
                 </span>
-              </>
+              </React.Fragment>
             ))}
           {current !== work.texts.length - 1 && <a href={`/${work.path}/${pageP(current + 1)}`}>{">"}</a>}
         </div>
@@ -60,13 +60,13 @@ export const WorkShow = async ({ work, page }: { work: Work; page?: number }) =>
       <WorkInfo work={work} option={{ hideHr: true }} />
       <div className="max-w-lg mx-auto mt-20">
         <Pager />
-        {splited.map((v) => (
-          <p>
-            {v.map((t) => (
-              <>
+        {splited.map((v, i) => (
+          <p key={i}>
+            {v.map((t, i) => (
+              <React.Fragment key={i}>
                 <span dangerouslySetInnerHTML={{ __html: t }}></span>
                 <br />
-              </>
+              </React.Fragment>
             ))}
           </p>
         ))}
@@ -105,10 +105,10 @@ export const WorkInfo = async ({
         <p className="pl-4 text-left text-xs my-4">
           {captions.map((v, i) => {
             return (
-              <>
+              <React.Fragment key={i}>
                 {i !== 0 && <br />}
                 {v}
-              </>
+              </React.Fragment>
             );
           })}
         </p>
@@ -117,7 +117,7 @@ export const WorkInfo = async ({
         {tag && (
           <div className="mb-0 mt-0">
             {tag.map((t) => (
-              <span className="mr-1">
+              <span className="mr-1" key={t}>
                 <a href={`/tag/${t}/`}>#{t}</a>
               </span>
             ))}
